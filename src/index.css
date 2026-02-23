@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans antialiased bg-gradient-to-b from-black via-zinc-950 to-black text-zinc-50;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgba(74, 74, 74, 0.8);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(106, 106, 106, 0.9);
+  }
+}
+
+@layer utilities {
+  .felixo-card-glow {
+    box-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .felixo-card-glow:hover {
+    box-shadow: 0 0 40px rgba(192, 132, 252, 0.6);
+  }
+}

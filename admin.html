@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Felipe Sala Board</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: linear-gradient(to bottom, #000, rgb(9, 9, 11), #000);
+      color: #fafafa;
+      padding: 24px;
+      min-height: 100vh;
+    }
+    
+    .container { max-width: 1280px; margin: 0 auto; }
+    
+    h1 { font-size: 36px; margin-bottom: 32px; color: #C084FC; }
+    h2 { font-size: 24px; margin-bottom: 16px; }
+    
+    .section {
+      background: rgba(9, 9, 11, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    
+    .btn {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    
+    .btn:hover { background: #e5e5e5; }
+    .btn-primary { background: #C084FC; color: #fff; }
+    .btn-primary:hover { background: #A855F7; }
+    .btn-danger { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.3); }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(39, 39, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #C084FC;
+    }
+    
+    .item {
+      background: rgba(24, 24, 27, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    
+    .flex { display: flex; gap: 12px; align-items: center; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    
+    .save-btn {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      padding: 12px 24px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ Admin - Editor de Conteúdo</h1>
+    <button class="btn btn-primary save-btn" onclick="saveData()">💾 Salvar e Baixar</button>
+
+    <!-- Alert Banner -->
+    <div class="section">
+      <h2>Aviso Principal</h2>
+      <input type="text" id="alertMessage" placeholder="Mensagem do aviso">
+      <select id="alertType">
+        <option value="info">Info</option>
+        <option value="warning">Warning</option>
+        <option value="success">Success</option>
+      </select>
+    </div>
+
+    <!-- Tasks -->
+    <div class="section">
+      <div class="flex-between">
+        <h2>Tarefas</h2>
+        <button class="btn" onclick="addTask()">+ Adicionar</button>
+      </div>
+      <div id="tasksList"></div>
+    </div>
+
+    <!-- Schedule -->
+    <div class="section">
+      <div class="flex-between">
+        <h2>Horários</h2>
+        <button class="btn" onclick="addSchedule()">+ Adicionar</button>
+      </div>
+      <div id="scheduleList"></div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="section">
+      <div class="flex-between">
+        <h2>Links Úteis</h2>
+        <button class="btn" onclick="addLink()">+ Adicionar</button>
+      </div>
+      <div id="linksList"></div>
+    </div>
+  </div>
+
+  <script>
+    let data = {
+      alertBanner: { message: '', type: 'info' },
+      upcomingTasks: [],
+      schedule: [],
+      quickLinks: []
+    };
+
+    // Load data
+    const stored = localStorage.getItem('boardData');
+    if (stored) {
+      data = JSON.parse(stored);
+    } else {
+      // Dados iniciais de exemplo
+      data = {
+        alertBanner: { message: 'Prova de Cálculo II na próxima sexta-feira (14/06)', type: 'warning' },
+        upcomingTasks: [
+          { id: '1', subject: 'Programação Web', description: 'Projeto final', dueDate: '2024-06-10' },
+          { id: '2', subject: 'Banco de Dados', description: 'Lista de exercícios', dueDate: '2024-06-12' }
+        ],
+        schedule: [
+          { time: '08:00 - 09:40', monday: 'Cálculo II', tuesday: 'Programação Web', wednesday: 'Cálculo II', thursday: 'Banco de Dados', friday: 'Eng. Software' },
+          { time: '10:00 - 11:40', monday: 'Programação Web', tuesday: 'Banco de Dados', wednesday: 'Laboratório', thursday: 'Eng. Software', friday: 'Cálculo II' }
+        ],
+        quickLinks: [
+          { id: '1', title: 'Drive da Turma', url: 'https://drive.google.com' },
+          { id: '2', title: 'Portal do Aluno', url: 'https://portal.exemplo.edu.br' }
+        ]
+      };
+    }
+
+    function render() {
+      document.getElementById('alertMessage').value = data.alertBanner.message || '';
+      document.getElementById('alertType').value = data.alertBanner.type || 'info';
+
+      document.getElementById('tasksList').innerHTML = data.upcomingTasks.map((task, i) => `
+        <div class="item">
+          <input type="text" placeholder="Matéria" value="${task.subject || ''}" onchange="data.upcomingTasks[${i}].subject = this.value">
+          <input type="text" placeholder="Descrição" value="${task.description || ''}" onchange="data.upcomingTasks[${i}].description = this.value">
+          <div class="flex">
+            <input type="date" value="${task.dueDate || ''}" onchange="data.upcomingTasks[${i}].dueDate = this.value" style="flex: 1">
+            <button class="btn btn-danger" onclick="deleteTask(${i})">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('scheduleList').innerHTML = data.schedule.map((slot, i) => `
+        <div class="item">
+          <input type="text" placeholder="Horário (ex: 08:00 - 09:40)" value="${slot.time || ''}" onchange="data.schedule[${i}].time = this.value">
+          <div class="grid-5">
+            <input type="text" placeholder="Seg" value="${slot.monday || ''}" onchange="data.schedule[${i}].monday = this.value">
+            <input type="text" placeholder="Ter" value="${slot.tuesday || ''}" onchange="data.schedule[${i}].tuesday = this.value">
+            <input type="text" placeholder="Qua" value="${slot.wednesday || ''}" onchange="data.schedule[${i}].wednesday = this.value">
+            <input type="text" placeholder="Qui" value="${slot.thursday || ''}" onchange="data.schedule[${i}].thursday = this.value">
+            <input type="text" placeholder="Sex" value="${slot.friday || ''}" onchange="data.schedule[${i}].friday = this.value">
+          </div>
+          <button class="btn btn-danger" onclick="deleteSchedule(${i})">🗑️</button>
+        </div>
+      `).join('');
+
+      document.getElementById('linksList').innerHTML = data.quickLinks.map((link, i) => `
+        <div class="item">
+          <input type="text" placeholder="Título" value="${link.title || ''}" onchange="data.quickLinks[${i}].title = this.value">
+          <div class="flex">
+            <input type="text" placeholder="URL" value="${link.url || ''}" onchange="data.quickLinks[${i}].url = this.value" style="flex: 1">
+            <button class="btn btn-danger" onclick="deleteLink(${i})">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addTask() {
+      data.upcomingTasks.push({ id: Date.now().toString(), subject: '', description: '', dueDate: '' });
+      render();
+    }
+
+    function deleteTask(i) {
+      data.upcomingTasks.splice(i, 1);
+      render();
+    }
+
+    function addSchedule() {
+      data.schedule.push({ time: '' });
+      render();
+    }
+
+    function deleteSchedule(i) {
+      data.schedule.splice(i, 1);
+      render();
+    }
+
+    function addLink() {
+      data.quickLinks.push({ id: Date.now().toString(), title: '', url: '' });
+      render();
+    }
+
+    function deleteLink(i) {
+      data.quickLinks.splice(i, 1);
+      render();
+    }
+
+    function saveData() {
+      data.alertBanner.message = document.getElementById('alertMessage').value;
+      data.alertBanner.type = document.getElementById('alertType').value;
+
+      localStorage.setItem('boardData', JSON.stringify(data));
+
+      const content = `export interface Task {
+  id: string;
+  subject: string;
+  description: string;
+  dueDate: string;
+}
+
+export interface ScheduleClass {
+  time: string;
+  monday?: string;
+  tuesday?: string;
+  wednesday?: string;
+  thursday?: string;
+  friday?: string;
+}
+
+export interface QuickLink {
+  id: string;
+  title: string;
+  url: string;
+  icon?: string;
+}
+
+export interface AlertBanner {
+  message: string;
+  type: 'info' | 'warning' | 'success';
+}
+
+export const alertBanner: AlertBanner = ${JSON.stringify(data.alertBanner, null, 2)};
+
+export const upcomingTasks: Task[] = ${JSON.stringify(data.upcomingTasks, null, 2)};
+
+export const schedule: ScheduleClass[] = ${JSON.stringify(data.schedule, null, 2)};
+
+export const quickLinks: QuickLink[] = ${JSON.stringify(data.quickLinks, null, 2)};
+`;
+
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mockData.ts';
+      a.click();
+      
+      alert('✅ Dados salvos! Substitua o arquivo src/data/mockData.ts pelo arquivo baixado.');
+    }
+
+    render();
+  </script>
+</body>
+</html>
