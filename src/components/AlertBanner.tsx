@@ -17,6 +17,11 @@ export default function AlertBanner({ alert }: Props) {
         <p className="font-semibold text-center md:text-left text-sm">
           ⚠️ {alert.message}
         </p>
+        {alert.type === 'warning' && (
+          <p className="text-xs text-center md:text-left mt-1 opacity-70">
+            Próxima atividade
+          </p>
+        )}
       </div>
     </div>
   );

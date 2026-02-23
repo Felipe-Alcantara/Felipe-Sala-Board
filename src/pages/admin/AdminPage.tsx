@@ -15,6 +15,12 @@ export default function AdminPage() {
   }, []);
 
   const saveData = () => {
+    const hasTaskWithoutStartDate = data.upcomingTasks.some(task => !task.startDate);
+    if (hasTaskWithoutStartDate) {
+      alert('Preencha a data inicial de todas as tarefas antes de salvar.');
+      return;
+    }
+
     localStorage.setItem('boardData', JSON.stringify(data));
     const blob = new Blob([`export const alertBanner = ${JSON.stringify(data.alertBanner, null, 2)};\n\nexport const upcomingTasks = ${JSON.stringify(data.upcomingTasks, null, 2)};\n\nexport const schedule = ${JSON.stringify(data.schedule, null, 2)};\n\nexport const quickLinks = ${JSON.stringify(data.quickLinks, null, 2)};`], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -28,7 +34,7 @@ export default function AdminPage() {
   const addTask = () => {
     setData(prev => ({
       ...prev,
-      upcomingTasks: [...prev.upcomingTasks, { id: Date.now().toString(), subject: '', description: '', dueDate: '' }]
+      upcomingTasks: [...prev.upcomingTasks, { id: Date.now().toString(), subject: '', description: '', startDate: '', dueDate: '' }]
     }));
   };
 
@@ -140,17 +146,26 @@ export default function AdminPage() {
                 value={task.description}
                 onChange={e => updateTask(task.id, 'description', e.target.value)}
               />
-              <div className="flex gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2">
                 <input
                   type="date"
-                  className="flex-1 h-10 rounded-xl bg-zinc-800/50 border border-white/10 px-3 text-sm text-white outline-none"
-                  value={task.dueDate}
+                  className="h-10 rounded-xl bg-zinc-800/50 border border-white/10 px-3 text-sm text-white outline-none"
+                  value={task.startDate || ''}
+                  onChange={e => updateTask(task.id, 'startDate', e.target.value)}
+                />
+                <input
+                  type="date"
+                  className="h-10 rounded-xl bg-zinc-800/50 border border-white/10 px-3 text-sm text-white outline-none"
+                  value={task.dueDate || ''}
                   onChange={e => updateTask(task.id, 'dueDate', e.target.value)}
                 />
                 <button onClick={() => deleteTask(task.id)} className="bg-red-500/20 text-red-400 px-4 py-2 rounded-xl text-sm hover:bg-red-500/30 transition">
                   🗑️
                 </button>
               </div>
+              <p className="mt-2 text-xs text-zinc-400">
+                Data inicial obrigatória | Prazo final opcional
+              </p>
             </div>
           ))}
         </section>

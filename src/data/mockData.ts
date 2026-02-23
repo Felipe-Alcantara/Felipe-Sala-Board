@@ -2,7 +2,9 @@ export interface Task {
   id: string;
   subject: string;
   description: string;
-  dueDate: string;
+  startDate: string;
+  dueDate?: string;
+  url?: string;
 }
 
 export interface ScheduleClass {
@@ -26,29 +28,19 @@ export interface AlertBanner {
   type: 'info' | 'warning' | 'success';
 }
 
+// O banner amarelo (warning) exibe a atividade/aula mais próxima no calendário
 export const alertBanner: AlertBanner = {
-  message: 'Prova de Cálculo II na próxima sexta-feira (14/06) - Estudar limites e derivadas',
+  message: 'Aula de Inteligência Artificial com Marcelo Arantes segunda-feira às 18:30 no Lab.03 / Bloco I',
   type: 'warning'
 };
 
 export const upcomingTasks: Task[] = [
   {
     id: '1',
-    subject: 'Programação Web',
-    description: 'Projeto final - Sistema de gerenciamento',
-    dueDate: '2024-06-10'
-  },
-  {
-    id: '2',
-    subject: 'Banco de Dados',
-    description: 'Lista de exercícios sobre normalização',
-    dueDate: '2024-06-12'
-  },
-  {
-    id: '3',
-    subject: 'Engenharia de Software',
-    description: 'Documentação de requisitos do projeto',
-    dueDate: '2024-06-15'
+    subject: 'Elaboração de Projeto de Pesquisa',
+    description: 'Aula 1 - ficha cadastral do TCC',
+    startDate: '2026-02-19',
+    url: 'https://nead.ugb.edu.br/mod/url/view.php?id=11201'
   }
 ];
 
