@@ -4,23 +4,23 @@ interface Props {
   schedule: ScheduleClass[];
 }
 
-const days = ['monday', 'tuesday', 'wednesday', 'thursday'] as const;
+const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'] as const;
 
-const dayLabels = ['Segunda', 'Terça', 'Quarta', 'Quinta'];
+const dayLabels = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
 
 const roomLegend = [
-  { key: 'Lab.01', cellClass: 'bg-[#8e8e8e]', textClass: 'text-zinc-900' },
-  { key: 'Lab.02', cellClass: 'bg-[#28457a]', textClass: 'text-zinc-50' },
-  { key: 'Lab.03', cellClass: 'bg-[#ead88f]', textClass: 'text-zinc-900' },
-  { key: 'Lab.04', cellClass: 'bg-[#ffa000]', textClass: 'text-zinc-900' },
-  { key: 'Lab.05', cellClass: 'bg-[#879fca]', textClass: 'text-zinc-900' },
-  { key: 'Lab.06', cellClass: 'bg-[#e6ab80]', textClass: 'text-zinc-900' },
-  { key: 'Lab.08', cellClass: 'bg-[#b3b3b3]', textClass: 'text-zinc-900' },
-  { key: 'Lab.09', cellClass: 'bg-[#5a8735]', textClass: 'text-zinc-50' },
-  { key: 'Lab.10', cellClass: 'bg-[#f5c400]', textClass: 'text-zinc-900' },
-  { key: 'Bloco IV - sala 505', cellClass: 'bg-[#ececec]', textClass: 'text-zinc-900' },
-  { key: 'Bloco IV - 301', cellClass: 'bg-[#db5de4]', textClass: 'text-zinc-900' },
-  { key: 'Bloco IV - 302', cellClass: 'bg-[#ff6f00]', textClass: 'text-zinc-900' }
+  { key: 'Lab.01', cellClass: 'bg-[#8A8A8A]', textClass: 'text-zinc-900' },
+  { key: 'Lab.02', cellClass: 'bg-[#223A70]', textClass: 'text-zinc-50' },
+  { key: 'Lab.03', cellClass: 'bg-[#EDD98A]', textClass: 'text-zinc-900' },
+  { key: 'Lab.04', cellClass: 'bg-[#F5A000]', textClass: 'text-zinc-900' },
+  { key: 'Lab.05', cellClass: 'bg-[#87A8D6]', textClass: 'text-zinc-900' },
+  { key: 'Lab.06', cellClass: 'bg-[#E9AB7B]', textClass: 'text-zinc-900' },
+  { key: 'Lab.08', cellClass: 'bg-[#B1B1B1]', textClass: 'text-zinc-900' },
+  { key: 'Lab.09', cellClass: 'bg-[#5A8735]', textClass: 'text-zinc-50' },
+  { key: 'Lab.10', cellClass: 'bg-[#F5C400]', textClass: 'text-zinc-900' },
+  { key: 'Bloco IV - sala 505', cellClass: 'bg-[#F2F2F2]', textClass: 'text-zinc-900' },
+  { key: 'Bloco IV - 301', cellClass: 'bg-[#E55BE9]', textClass: 'text-zinc-900' },
+  { key: 'Bloco IV - 302', cellClass: 'bg-[#FF6A00]', textClass: 'text-zinc-50' }
 ] as const;
 
 function parseScheduleCell(raw: string) {

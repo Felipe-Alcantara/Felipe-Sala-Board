@@ -49,33 +49,33 @@ export const schedule: ScheduleClass[] = [
     time: '18:30 - 19:20',
     monday: 'Inteligência Artificial | Marcelo Arantes | Lab.03 / Bloco I',
     tuesday: 'Complexidade de Algoritmos | Marcelo Arantes | Lab.06 - 405 / Bloco IV',
-    wednesday: 'Computação Gráfica | Fábio Gonçalves | Lab.01',
+    wednesday: '...',
     thursday: 'Elaboração e Projeto de Pesquisa | André Ricardo | Lab.03 / Bloco I',
-    friday: '...'
+    friday: 'Computação Gráfica | Fábio Gonçalves | Lab.01'
   },
   {
     time: '19:20 - 20:10',
     monday: 'Inteligência Artificial | Lab.03 / Bloco I',
     tuesday: 'Implantação e Gerência de Projetos | David Ricci | Lab.06 - 405 / Bloco IV',
-    wednesday: 'Computação Gráfica | Lab.01',
+    wednesday: '...',
     thursday: 'Elaboração e Projeto de Pesquisa | André Ricardo | Lab.03 / Bloco I',
-    friday: '...'
+    friday: 'Computação Gráfica | Lab.01'
   },
   {
     time: '20:20 - 21:10',
     monday: 'Complexidade de Algoritmos | Marcelo Arantes | Lab.03 / Bloco I',
     tuesday: 'Implantação e Gerência de Projetos | Lab.06 - 405 / Bloco IV',
-    wednesday: 'Computação Gráfica | Lab.01',
+    wednesday: '...',
     thursday: 'Interação Homem Computador | Matheus Silva | Lab.03 / Bloco I',
-    friday: '...'
+    friday: 'Computação Gráfica | Lab.01'
   },
   {
     time: '21:10 - 22:00',
     monday: 'Complexidade de Algoritmos | Lab.03 / Bloco I',
     tuesday: 'Implantação e Gerência de Projetos | Lab.06 - 405 / Bloco IV',
-    wednesday: 'Inteligência Artificial | Marcelo Arantes | Lab.01',
+    wednesday: '...',
     thursday: 'Interação Homem Computador | Lab.03 / Bloco I',
-    friday: '...'
+    friday: 'Inteligência Artificial | Marcelo Arantes | Lab.01'
   }
 ];
 
