@@ -1,2 +1,2 @@
-# Felipe Sala Board
+# Turma de Sistemas de Informação - 6º Período
 Uma plataforma leve e não-oficial para estudantes: centralize horários, avisos, entregas de trabalhos, enquetes e canais de estudo. O objetivo é aumentar o engajamento da turma com ferramentas simples — calendário compartilhado, mural de avisos, tracker de tarefas e integração com o Discord (ou link direto). Desenvolvido com foco em usabilidade, acessibilidade e personalização pelo Felixo Design System.
