@@ -1,4 +1,5 @@
 import { ScheduleClass } from '../data/mockData';
+import { parseScheduleCell } from '../utils/scheduleAlert';
 
 interface Props {
   schedule: ScheduleClass[];
@@ -22,38 +23,6 @@ const roomLegend = [
   { key: 'Bloco IV - 301', cellClass: 'bg-[#E55BE9]', textClass: 'text-zinc-900' },
   { key: 'Bloco IV - 302', cellClass: 'bg-[#FF6A00]', textClass: 'text-zinc-50' }
 ] as const;
-
-function parseScheduleCell(raw: string) {
-  const parts = raw
-    .split('|')
-    .map((part) => part.trim())
-    .filter(Boolean);
-
-  if (parts.length === 0) {
-    return { subject: '' };
-  }
-
-  if (parts.length === 1) {
-    return { subject: parts[0] };
-  }
-
-  if (parts.length === 2) {
-    const [subject, secondPart] = parts;
-    const looksLikeRoom = secondPart.startsWith('Lab.') || secondPart.startsWith('Bloco');
-
-    if (looksLikeRoom) {
-      return { subject, room: secondPart };
-    }
-
-    return { subject, teacher: secondPart };
-  }
-
-  return {
-    subject: parts[0],
-    teacher: parts[1],
-    room: parts[2]
-  };
-}
 
 function resolveCellColor(room?: string) {
   if (!room) {
