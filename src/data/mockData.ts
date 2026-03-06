@@ -186,8 +186,32 @@ export const materials: MaterialNode[] = [
     label: 'Inteligência Artificial',
     type: 'folder',
     children: [
-      { id: 'ia-1', label: 'Aula 01 - Introdução à IA', type: 'file', url: 'https://drive.google.com' },
-      { id: 'ia-2', label: 'Aula 02 - Agentes Inteligentes', type: 'file', url: 'https://drive.google.com' }
+      {
+        id: 'ia-0',
+        label: 'Aula 0 - Apresentação da Disciplina',
+        type: 'folder',
+        children: [
+          { id: 'ia-0-1', label: 'Inteligência Artificial - Aula 0 - Apresentação (PPTX)', type: 'file', url: 'https://drive.google.com' }
+        ]
+      },
+      {
+        id: 'ia-1',
+        label: 'Aula 1 - Introdução',
+        type: 'folder',
+        children: [
+          { id: 'ia-1-1', label: 'Inteligência Artificial - Aula 1 - Introdução (PPTX)', type: 'file', url: 'https://drive.google.com' }
+        ]
+      },
+      {
+        id: 'ia-2',
+        label: 'Aula 2 - Agentes',
+        type: 'folder',
+        children: [
+          { id: 'ia-2-1', label: 'Inteligência Artificial - Aula 2 - Agentes (PPTX)', type: 'file', url: 'https://drive.google.com' },
+          { id: 'ia-2-2', label: 'Exercício - Agente Reativo para Estação de Tratamento de Água', type: 'file', url: 'https://drive.google.com' },
+          { id: 'ia-2-3', label: 'Correção do Exercício - Estação de Tratamento de Água (ETA)', type: 'file', url: 'https://drive.google.com' }
+        ]
+      }
     ]
   },
   {
