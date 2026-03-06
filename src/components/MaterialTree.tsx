@@ -1,13 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MaterialNode } from '../data/mockData';
 
 interface TreeNodeProps {
   node: MaterialNode;
   depth: number;
+  collapseSignal: number;
 }
 
-function TreeNode({ node, depth }: TreeNodeProps) {
+function TreeNode({ node, depth, collapseSignal }: TreeNodeProps) {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [collapseSignal]);
 
   if (node.type === 'file') {
     return (
@@ -49,7 +54,7 @@ function TreeNode({ node, depth }: TreeNodeProps) {
         <div>
           {hasChildren ? (
             node.children!.map((child) => (
-              <TreeNode key={child.id} node={child} depth={depth + 1} />
+              <TreeNode key={child.id} node={child} depth={depth + 1} collapseSignal={collapseSignal} />
             ))
           ) : (
             <p
@@ -70,19 +75,29 @@ interface Props {
 }
 
 export default function MaterialTree({ nodes }: Props) {
+  const [collapseSignal, setCollapseSignal] = useState(0);
+
   return (
     <section className="py-14 px-6">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-          Materiais das Aulas
-        </h2>
+        <div className="flex items-end justify-between mb-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-white">
+            Materiais das Aulas
+          </h2>
+          <button
+            onClick={() => setCollapseSignal((s) => s + 1)}
+            className="text-xs text-zinc-400 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-xl"
+          >
+            Recolher tudo
+          </button>
+        </div>
         <p className="text-sm text-zinc-400 mb-6">
           Clique nas pastas para expandir. Os arquivos abrem direto no Drive.
         </p>
         <div className="rounded-3xl border border-white/10 bg-zinc-950/50 py-2">
           {nodes.length > 0 ? (
             nodes.map((node) => (
-              <TreeNode key={node.id} node={node} depth={0} />
+              <TreeNode key={node.id} node={node} depth={0} collapseSignal={collapseSignal} />
             ))
           ) : (
             <p className="text-center text-zinc-500 py-8">
