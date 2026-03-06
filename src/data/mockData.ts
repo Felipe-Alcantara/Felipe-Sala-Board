@@ -28,12 +28,35 @@ export interface AlertBanner {
   type: 'info' | 'warning' | 'success';
 }
 
-// O banner amarelo (warning) exibe a atividade/aula mais próxima no calendário
+// ─── AVISO PRINCIPAL ───
+// Usado como fallback quando não há próxima aula na grade.
+// O banner é calculado automaticamente a partir da grade de horários.
+// type: 'info' (azul) | 'warning' (amarelo) | 'success' (verde)
 export const alertBanner: AlertBanner = {
   message: 'Aula de Inteligência Artificial com Marcelo Arantes segunda-feira às 18:30 no Lab.03 / Bloco I',
   type: 'warning'
 };
 
+// ─── RADAR DE ENTREGAS ───
+// Cada tarefa aparece como um card na seção "Radar de Entregas".
+//
+// Campos:
+//   id          → identificador único (use qualquer string, ex: '1', '2', ...)
+//   subject     → nome da matéria
+//   description → descrição da atividade
+//   startDate   → data de início, obrigatória (formato 'YYYY-MM-DD')
+//   dueDate     → prazo final, opcional (formato 'YYYY-MM-DD')
+//   url         → link externo, opcional (se presente, o card fica clicável)
+//
+// Exemplo:
+//   {
+//     id: '2',
+//     subject: 'Inteligência Artificial',
+//     description: 'Entrega do trabalho sobre redes neurais',
+//     startDate: '2026-03-10',
+//     dueDate: '2026-03-20',
+//     url: 'https://nead.ugb.edu.br/...'
+//   }
 export const upcomingTasks: Task[] = [
   {
     id: '1',
@@ -44,6 +67,23 @@ export const upcomingTasks: Task[] = [
   }
 ];
 
+// ─── GRADE DE HORÁRIOS ───
+// Cada entrada representa uma faixa de horário na tabela semanal.
+// O banner automático de "próxima aula" é calculado a partir desses dados.
+//
+// Campos:
+//   time      → faixa de horário (ex: '18:30 - 19:20')
+//   monday    → aula de segunda (opcional)
+//   tuesday   → aula de terça (opcional)
+//   wednesday → aula de quarta (opcional)
+//   thursday  → aula de quinta (opcional)
+//   friday    → aula de sexta (opcional)
+//
+// Formato de cada aula: 'Matéria | Professor | Sala'
+//   - Só matéria:             'Inteligência Artificial'
+//   - Matéria + sala:         'Inteligência Artificial | Lab.03 / Bloco I'
+//   - Matéria + prof + sala:  'Inteligência Artificial | Marcelo Arantes | Lab.03 / Bloco I'
+//   - Usar '...' para indicar continuação de aula anterior
 export const schedule: ScheduleClass[] = [
   {
     time: '18:30 - 19:20',
@@ -79,6 +119,13 @@ export const schedule: ScheduleClass[] = [
   }
 ];
 
+// ─── LINKS ÚTEIS ───
+// Cards de acesso rápido exibidos na seção "Links Úteis".
+//
+// Campos:
+//   id    → identificador único
+//   title → texto exibido no card
+//   url   → endereço do link
 export const quickLinks: QuickLink[] = [
   {
     id: '1',
