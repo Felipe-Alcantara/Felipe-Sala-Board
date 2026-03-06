@@ -48,15 +48,15 @@ export default function Schedule({ schedule }: Props) {
         <p className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-zinc-200 mb-4">
           6º Período
         </p>
-        <div className="overflow-x-auto rounded-3xl border border-white/10 bg-zinc-950/50">
-          <table className="w-full">
+        <div className="overflow-x-auto rounded-3xl border border-white/10 bg-zinc-950/50 relative">
+          <table className="w-full relative">
             <thead>
               <tr className="border-b border-white/10">
-                <th className="p-3 text-left font-bold text-white text-sm border-r border-white/5">
+                <th className="sticky left-0 z-20 bg-zinc-950 p-3 text-left font-bold text-white text-sm border-r border-white/5 shadow-[4px_0_12px_-2px_rgba(0,0,0,0.8)]">
                   Horário
                 </th>
                 {dayLabels.map((day) => (
-                  <th key={day} className="p-3 text-left font-bold text-white text-sm border-r border-white/5 last:border-r-0">
+                  <th key={day} className="p-3 text-left font-bold text-white text-sm border-r border-white/5 last:border-r-0 min-w-[160px]">
                     {day}
                   </th>
                 ))}
@@ -65,7 +65,7 @@ export default function Schedule({ schedule }: Props) {
             <tbody>
               {schedule.map((slot, index) => (
                 <tr key={index} className="border-t border-white/5">
-                  <td className="p-3 font-semibold text-felixo-purple text-sm border-r border-white/5">
+                  <td className="sticky left-0 z-20 bg-zinc-950 p-3 font-semibold text-felixo-purple text-sm border-r border-white/5 shadow-[4px_0_12px_-2px_rgba(0,0,0,0.8)] whitespace-nowrap">
                     {slot.time}
                   </td>
                   {days.map((day) => {
