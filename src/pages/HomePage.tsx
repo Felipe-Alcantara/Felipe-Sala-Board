@@ -8,7 +8,11 @@ import Footer from '../components/Footer';
 import { alertBanner, upcomingTasks, schedule, quickLinks } from '../data/mockData';
 import { getNextClassAlert } from '../utils/scheduleAlert';
 
-export default function HomePage() {
+interface Props {
+  onNavigate: (page: string) => void;
+}
+
+export default function HomePage({ onNavigate }: Props) {
   const [currentTime, setCurrentTime] = useState(() => Date.now());
   const [data, setData] = useState({
     alertBanner,
@@ -36,7 +40,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header onNavigate={onNavigate} currentPage="home" />
       <AlertBanner alert={activeAlert} />
       <UpcomingTasks tasks={data.upcomingTasks} />
       <Schedule schedule={data.schedule} />

@@ -28,6 +28,34 @@ export interface AlertBanner {
   type: 'info' | 'warning' | 'success';
 }
 
+// ─── MATERIAIS / CONTEÚDOS ───
+// Estrutura de árvore para organizar materiais por matéria e aula.
+//
+// Cada nó pode ser:
+//   - 'folder' → pasta colapsável (contém children)
+//   - 'file'   → item final com link (contém url)
+//
+// Exemplo:
+//   {
+//     id: '1',
+//     label: 'Inteligência Artificial',
+//     type: 'folder',
+//     children: [
+//       { id: '1-1', label: 'Aula 01 - Introdução', type: 'file', url: 'https://...' },
+//       { id: '1-2', label: 'Aula 02 - Redes Neurais', type: 'folder', children: [
+//         { id: '1-2-1', label: 'Slides', type: 'file', url: 'https://...' },
+//         { id: '1-2-2', label: 'Lista de exercícios', type: 'file', url: 'https://...' }
+//       ]}
+//     ]
+//   }
+export interface MaterialNode {
+  id: string;
+  label: string;
+  type: 'folder' | 'file';
+  url?: string;
+  children?: MaterialNode[];
+}
+
 // ─── AVISO PRINCIPAL ───
 // Usado como fallback quando não há próxima aula na grade.
 // O banner é calculado automaticamente a partir da grade de horários.
@@ -146,5 +174,52 @@ export const quickLinks: QuickLink[] = [
     id: '4',
     title: 'Biblioteca Virtual',
     url: 'https://biblioteca.exemplo.edu.br'
+  }
+];
+
+// ─── ÁRVORE DE MATERIAIS ───
+// Dados da página "Materiais" organizados por matéria > aula > arquivo.
+// Substitua os exemplos abaixo pelos links reais do Drive da turma.
+export const materials: MaterialNode[] = [
+  {
+    id: 'ia',
+    label: 'Inteligência Artificial',
+    type: 'folder',
+    children: [
+      { id: 'ia-1', label: 'Aula 01 - Introdução à IA', type: 'file', url: 'https://drive.google.com' },
+      { id: 'ia-2', label: 'Aula 02 - Agentes Inteligentes', type: 'file', url: 'https://drive.google.com' }
+    ]
+  },
+  {
+    id: 'ca',
+    label: 'Complexidade de Algoritmos',
+    type: 'folder',
+    children: [
+      { id: 'ca-1', label: 'Aula 01 - Análise Assintótica', type: 'file', url: 'https://drive.google.com' }
+    ]
+  },
+  {
+    id: 'igp',
+    label: 'Implantação e Gerência de Projetos',
+    type: 'folder',
+    children: []
+  },
+  {
+    id: 'epp',
+    label: 'Elaboração e Projeto de Pesquisa',
+    type: 'folder',
+    children: []
+  },
+  {
+    id: 'cg',
+    label: 'Computação Gráfica',
+    type: 'folder',
+    children: []
+  },
+  {
+    id: 'ihc',
+    label: 'Interação Homem Computador',
+    type: 'folder',
+    children: []
   }
 ];
