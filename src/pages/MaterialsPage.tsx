@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
-import Header from '../components/Header';
 import MaterialTree from '../components/MaterialTree';
-import Footer from '../components/Footer';
 import { materials } from '../data/mockData';
 import type { MaterialNode } from '../data/mockData';
 
-interface Props {
-  onBack: () => void;
-}
-
-export default function MaterialsPage({ onBack }: Props) {
+export default function MaterialsPage() {
   const [data, setData] = useState<MaterialNode[]>(materials);
 
   useEffect(() => {
@@ -22,11 +16,5 @@ export default function MaterialsPage({ onBack }: Props) {
     }
   }, []);
 
-  return (
-    <div className="min-h-screen">
-      <Header onNavigate={(p) => { if (p === 'home') onBack(); }} currentPage="materials" />
-      <MaterialTree nodes={data} />
-      <Footer />
-    </div>
-  );
+  return <MaterialTree nodes={data} />;
 }
