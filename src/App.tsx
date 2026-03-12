@@ -6,11 +6,9 @@ import MaterialsPage from './pages/MaterialsPage';
 
 export default function App() {
   const [page, setPage] = useState('home');
-  const [direction, setDirection] = useState<'left' | 'right'>('right');
 
   const handleNavigate = (newPage: string) => {
     if (newPage === page) return;
-    setDirection(newPage === 'materials' ? 'right' : 'left');
     setPage(newPage);
   };
 
