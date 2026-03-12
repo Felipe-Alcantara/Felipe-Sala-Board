@@ -324,11 +324,11 @@ export default function MaterialTree({ nodes }: Props) {
   return (
     <section className="py-14 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-end justify-between mb-2">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-2">
           <h2 className="text-2xl md:text-3xl font-bold text-white">
             Materiais das Aulas
           </h2>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <span className="text-xs text-zinc-400">
               {totalViewed}/{totalFiles} vistos
             </span>
@@ -340,12 +340,12 @@ export default function MaterialTree({ nodes }: Props) {
                 onChange={(e) => handleSwitchView(e.target.checked ? 'simple' : 'dynamic')}
                 className="accent-purple-500 w-3.5 h-3.5 rounded cursor-pointer"
               />
-              <span className="text-xs text-zinc-400">Modo simplificado</span>
+              <span className="text-xs text-zinc-400 whitespace-nowrap">Modo simplificado</span>
             </label>
 
             <button
               onClick={handleCollapseAll}
-              className="text-xs text-zinc-400 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-xl"
+              className="text-xs text-zinc-400 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-xl whitespace-nowrap"
             >
               Recolher tudo
             </button>
