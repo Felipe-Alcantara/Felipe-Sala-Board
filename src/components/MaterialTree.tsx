@@ -352,7 +352,7 @@ export default function MaterialTree({ nodes }: Props) {
           </div>
         </div>
         <p className="text-sm text-zinc-400 mb-6">
-          Clique nas pastas para expandir. Marque o ✓ nos materiais que já viu.
+          Clique nas pastas para expandir. Clique no nome do arquivo para abri-lo (nova aba). Marque o ✓ nos materiais que já viu.
         </p>
         <div className="rounded-3xl border border-white/10 bg-zinc-950/50 py-2">
           {nodes.length > 0 ? (
