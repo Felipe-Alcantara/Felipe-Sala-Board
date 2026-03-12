@@ -191,7 +191,7 @@ export const materials: MaterialNode[] = [
         label: 'Aula 0 - Apresentação da Disciplina',
         type: 'folder',
         children: [
-          { id: 'ia-0-1', label: 'Inteligência Artificial - Aula 0 - Apresentação (PPTX)', type: 'file', url: '#' }
+          { id: 'ia-0-1', label: 'Inteligência Artificial - Aula 0 - Apresentação (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Inteligencia.Artificial.-.Aula.0.-.Apresentacao.pptx' }
         ]
       },
       {
@@ -199,7 +199,7 @@ export const materials: MaterialNode[] = [
         label: 'Aula 1 - Introdução',
         type: 'folder',
         children: [
-          { id: 'ia-1-1', label: 'Inteligência Artificial - Aula 1 - Introdução (PPTX)', type: 'file', url: '#' }
+          { id: 'ia-1-1', label: 'Inteligência Artificial - Aula 1 - Introdução (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Inteligencia.Artificial.-.Aula.1.-.Introducao.pptx' }
         ]
       },
       {
@@ -207,7 +207,7 @@ export const materials: MaterialNode[] = [
         label: 'Aula 2 - Agentes',
         type: 'folder',
         children: [
-          { id: 'ia-2-1', label: 'Inteligência Artificial - Aula 2 - Agentes (PPTX)', type: 'file', url: '#' },
+          { id: 'ia-2-1', label: 'Inteligência Artificial - Aula 2 - Agentes (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Inteligencia.Artificial.-.Aula.2.-.Agentes.pptx' },
           { id: 'ia-2-2', label: 'Exercício - Agente Reativo para Estação de Tratamento de Água', type: 'file', url: 'https://colab.research.google.com/drive/1IZA_0sQoJSvZsxtcNYE3OF-x-wM77sID?usp=sharing' },
           { id: 'ia-2-3', label: 'Correção do Exercício - Estação de Tratamento de Água (ETA)', type: 'file', url: 'https://colab.research.google.com/drive/1v3bh8jGmrW5DB6GadFEVHTUiPy9HO6F_?usp=sharing' }
         ]
@@ -217,9 +217,18 @@ export const materials: MaterialNode[] = [
         label: 'Aula 3 - Métodos de Busca - Desinformados',
         type: 'folder',
         children: [
-          { id: 'ia-3-1', label: 'Inteligência Artificial - Aula 3 - Métodos Desinformados (PPTX)', type: 'file', url: '#' },
-          { id: 'ia-3-2', label: 'Mapa da Romênia (PPTX)', type: 'file', url: '#' },
+          { id: 'ia-3-1', label: 'Inteligência Artificial - Aula 3 - Métodos Desinformados (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Inteligencia.Artificial.-.Aula.3.-.Metodos.Desinformados.-.2026.1.pptx' },
+          { id: 'ia-3-2', label: 'Mapa da Romênia (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Mapa.da.Romenia.pptx' },
           { id: 'ia-3-3', label: 'Quiz - Métodos de Busca - Desinformadas', type: 'file', url: 'https://forms.gle/GyMTzuesXv9fDec4A' }
+        ]
+      },
+      {
+        id: 'ia-4',
+        label: 'Aula 4 - Métodos de Busca - Informados',
+        type: 'folder',
+        children: [
+          { id: 'ia-4-1', label: 'Inteligência Artificial - Aula 4 - Métodos Informados (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Inteligencia.Artificial.-.Aula.4.-.Metodos.Informados.-.2026.1.pptx' },
+          { id: 'ia-4-2', label: 'Quiz - Busca Informada', type: 'file', url: 'https://gemini.google.com/share/f3e3b48afeeb' }
         ]
       }
     ]
@@ -234,7 +243,7 @@ export const materials: MaterialNode[] = [
         label: 'Aula 0 - Apresentação',
         type: 'folder',
         children: [
-          { id: 'ca-0-1', label: 'Complexidade de Algoritmos - Aula 0 - Apresentação (PPTX)', type: 'file', url: '#' }
+          { id: 'ca-0-1', label: 'Complexidade de Algoritmos - Aula 0 - Apresentação (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Complexidade.de.Algoritmos.-.Aula.0.-.Apresentacao.pptx' }
         ]
       },
       {
@@ -242,7 +251,7 @@ export const materials: MaterialNode[] = [
         label: 'Aula 1 - Introdução',
         type: 'folder',
         children: [
-          { id: 'ca-1-1', label: 'Complexidade de Algoritmos - Aula 1 - Introdução (PPTX)', type: 'file', url: '#' },
+          { id: 'ca-1-1', label: 'Complexidade de Algoritmos - Aula 1 - Introdução (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Complexidade.de.Algoritmos.-.Aula.1.-.Introducao.pptx' },
           { id: 'ca-1-2', label: 'Exercício de Fixação - Aula 1', type: 'file', url: 'https://gemini.google.com/share/6f58102d2638' }
         ]
       },
@@ -251,8 +260,8 @@ export const materials: MaterialNode[] = [
         label: 'Aula 2 - Complexidade Exata',
         type: 'folder',
         children: [
-          { id: 'ca-2-1', label: 'Complexidade de Algoritmos - Aula 2 - Complexidade Exata (PPTX)', type: 'file', url: '#' },
-          { id: 'ca-2-2', label: 'Correção - Exercícios (PPTX)', type: 'file', url: '#' }
+          { id: 'ca-2-1', label: 'Complexidade de Algoritmos - Aula 2 - Complexidade Exata (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Complexidade.de.Algoritmos.-.Aula.2.-.Complexidade.Exata.pptx' },
+          { id: 'ca-2-2', label: 'Correção - Exercícios (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Correcao.-.Exercicios.pptx' }
         ]
       },
       {
@@ -260,8 +269,17 @@ export const materials: MaterialNode[] = [
         label: 'Aula 3 - Medidas de Complexidade',
         type: 'folder',
         children: [
-          { id: 'ca-3-1', label: 'Complexidade de Algoritmos - Aula 3 - Medidas de Complexidade (PPTX)', type: 'file', url: '#' },
+          { id: 'ca-3-1', label: 'Complexidade de Algoritmos - Aula 3 - Medidas de Complexidade (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Complexidade.de.Algoritmos.-.Aula.3.-.Medidas.de.Complexidade.pptx' },
           { id: 'ca-3-2', label: 'Quiz - Medidas de Complexidade', type: 'file', url: 'https://forms.gle/HjVA1VPzoYAWodAz7' }
+        ]
+      },
+      {
+        id: 'ca-4',
+        label: 'Aula 4 - Comportamento Assintótico',
+        type: 'folder',
+        children: [
+          { id: 'ca-4-1', label: 'Complexidade de Algoritmos - Aula 4 - Comportamento Assintótico (PPTX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Complexidade.de.Algoritmos.-.Aula.4.-.Comportamento.Assintotico.pptx' },
+          { id: 'ca-4-2', label: 'Quiz - Comportamento Assintótico', type: 'file', url: 'https://gemini.google.com/share/f7da04cec6cb' }
         ]
       }
     ]
@@ -276,7 +294,7 @@ export const materials: MaterialNode[] = [
         label: 'Aula 01 - Apresentação da Disciplina',
         type: 'folder',
         children: [
-          { id: 'cg-1-1', label: 'Computação Gráfica - Apresentação (PDF)', type: 'file', url: '#' }
+          { id: 'cg-1-1', label: 'Computação Gráfica - Apresentação (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Computacao_Grafica.pdf' }
         ]
       },
       {
@@ -284,7 +302,17 @@ export const materials: MaterialNode[] = [
         label: 'Aula 02 - Fundamentos da Computação Gráfica',
         type: 'folder',
         children: [
-          { id: 'cg-2-1', label: 'Computação Gráfica - Aula 02 - Ajustado (PDF)', type: 'file', url: '#' }
+          { id: 'cg-2-1', label: 'Computação Gráfica - Aula 02 - Ajustado (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Computacao.Grafica.-.Aula02.-.Ajustado.pdf' },
+          { id: 'cg-2-2', label: 'Atividade Complementar para AV1', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Atividade.Complementar.para.AV1.md' }
+        ]
+      },
+      {
+        id: 'cg-3',
+        label: 'Aula 03 - Desenhando Primitivas',
+        type: 'folder',
+        children: [
+          { id: 'cg-3-1', label: 'Conteúdo Aula 01 (ZIP)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Conteudo_Aula_01.zip' },
+          { id: 'cg-3-2', label: 'Exercício 01 (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Exercicio01.pdf' }
         ]
       }
     ]
@@ -299,7 +327,7 @@ export const materials: MaterialNode[] = [
         label: 'Aula 0 - Apresentação da Disciplina',
         type: 'folder',
         children: [
-          { id: 'epp-0-1', label: 'Aula 0 - Ementa TCC (PDF)', type: 'file', url: '#' }
+          { id: 'epp-0-1', label: 'Aula 0 - Ementa TCC (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/aula0_ementa_tcc.pdf' }
         ]
       },
       {
@@ -315,8 +343,8 @@ export const materials: MaterialNode[] = [
         label: 'Aula 2 - Estrutura do Artigo',
         type: 'folder',
         children: [
-          { id: 'epp-2-1', label: 'Aula 2 - EPP (PDF)', type: 'file', url: '#' },
-          { id: 'epp-2-2', label: 'Termo de Autorização para Divulgação de Informações de Empresas (DOCX)', type: 'file', url: '#' }
+          { id: 'epp-2-1', label: 'Aula 2 - EPP (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/aula2_epp.pdf' },
+          { id: 'epp-2-2', label: 'Termo de Autorização para Divulgação de Informações de Empresas (DOCX)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/TERMO.DE.AUTORIZACAO.PARA.DIVULGACAO.DE.INFORMACOES.DE.EMPRESAS.docx' }
         ]
       },
       {
@@ -324,7 +352,7 @@ export const materials: MaterialNode[] = [
         label: 'Aula 3 - Título',
         type: 'folder',
         children: [
-          { id: 'epp-3-1', label: 'Aula 3 - EPP (PDF)', type: 'file', url: '#' }
+          { id: 'epp-3-1', label: 'Aula 3 - EPP (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/aula3_epp.pdf' }
         ]
       }
     ]
@@ -339,7 +367,18 @@ export const materials: MaterialNode[] = [
         label: 'Aula 01',
         type: 'folder',
         children: [
-          { id: 'igp-1-1', label: 'Unidade I - Introdução (PDF)', type: 'file', url: '#' }
+          { id: 'igp-1-1', label: 'Unidade I - Introdução (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Unidade.I.-.Introducao.pdf' }
+        ]
+      },
+      {
+        id: 'igp-2',
+        label: 'Aula 02 - 10/03/2026',
+        type: 'folder',
+        children: [
+          { id: 'igp-2-1', label: 'Gestão de Projetos (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/1.GESTAO.DE.PROJETOS.pdf' },
+          { id: 'igp-2-2', label: 'Análise SWOT (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/ME_Analise-Swot.pdf' },
+          { id: 'igp-2-3', label: 'Análise SWOT - O que é, para que serve, benefícios e como fazer', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Analise.SWOT.o.que.e.para.que.serve.beneficios.e.como.fazer.md' },
+          { id: 'igp-2-4', label: 'Tabela SWOT (FOFA)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/Tabela.SWOT.FOFA.md' }
         ]
       }
     ]
@@ -348,6 +387,31 @@ export const materials: MaterialNode[] = [
     id: 'ihc',
     label: 'Interação Homem-Computador',
     type: 'folder',
-    children: []
+    children: [
+      {
+        id: 'ihc-1',
+        label: 'Aula 01 - Apresentação',
+        type: 'folder',
+        children: [
+          { id: 'ihc-1-1', label: 'IHC - Apresentação (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/1.AULA.IHC.APRESENTACAO.pdf' }
+        ]
+      },
+      {
+        id: 'ihc-2',
+        label: 'Aula 02 - Introdução',
+        type: 'folder',
+        children: [
+          { id: 'ihc-2-1', label: 'IHC - Introdução (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/2.AULA.IHC.INTRODUCAO.pdf' }
+        ]
+      },
+      {
+        id: 'ihc-3',
+        label: 'Aula 03 - Histórico',
+        type: 'folder',
+        children: [
+          { id: 'ihc-3-1', label: 'IHC - Histórico (PDF)', type: 'file', url: 'https://github.com/Felipe-Alcantara/Felipe-Sala-Board/releases/download/materiais/3.AULA.IHC.HISTORICO.pdf' }
+        ]
+      }
+    ]
   }
 ];
