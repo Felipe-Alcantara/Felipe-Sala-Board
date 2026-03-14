@@ -1,0 +1,13 @@
+---
+description: Seguir sempre os padrões definidos em felixo-standards
+---
+
+Você DEVE sempre seguir os padrões e convenções definidos no prompt @felixo-standards em todas as alterações de código, criação de componentes, e modificações no projeto.
+
+Aplique consistentemente:
+- Padrões de código e estrutura
+- Convenções de nomenclatura
+- Boas práticas estabelecidas
+- Arquitetura e organização de arquivos
+
+Consulte @felixo-standards como referência obrigatória antes de implementar qualquer alteração.

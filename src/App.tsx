@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
+import GestaoPage from './pages/GestaoPage';
 import MaterialsPage from './pages/MaterialsPage';
 
 export default function App() {
@@ -12,14 +13,24 @@ export default function App() {
     setPage(newPage);
   };
 
+  const renderPage = () => {
+    switch (page) {
+      case 'home':
+        return <HomePage />;
+      case 'gestao':
+        return <GestaoPage />;
+      case 'materials':
+        return <MaterialsPage />;
+      default:
+        return <HomePage />;
+    }
+  };
+
   return (
     <div className="min-h-screen">
       <Header onNavigate={handleNavigate} currentPage={page} />
-      <div
-        key={page}
-        className={page === 'home' ? 'animate-slide-left' : 'animate-slide-right'}
-      >
-        {page === 'home' ? <HomePage /> : <MaterialsPage />}
+      <div key={page} className="animate-slide-left">
+        {renderPage()}
       </div>
       <Footer />
     </div>

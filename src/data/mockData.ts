@@ -28,6 +28,30 @@ export interface AlertBanner {
   type: 'info' | 'warning' | 'success';
 }
 
+export interface WorkGroup {
+  id: string;
+  name: string;
+  members: string[];
+  files?: { name: string; url: string }[];
+}
+
+export interface Work {
+  id: string;
+  subject: string;
+  title: string;
+  description: string;
+  dueDate?: string;
+  groups?: WorkGroup[];
+}
+
+export interface Notice {
+  id: string;
+  title: string;
+  content: string;
+  date: string;
+  type: 'info' | 'warning' | 'urgent';
+}
+
 // ─── MATERIAIS / CONTEÚDOS ───
 // Estrutura de árvore para organizar materiais por matéria e aula.
 //
@@ -413,5 +437,43 @@ export const materials: MaterialNode[] = [
         ]
       }
     ]
+  }
+];
+
+// ─── TRABALHOS E GRUPOS ───
+export const works: Work[] = [
+  {
+    id: '1',
+    subject: 'Inteligência Artificial',
+    title: 'Trabalho sobre Redes Neurais',
+    description: 'Implementação de uma rede neural simples',
+    dueDate: '2026-04-15',
+    groups: [
+      {
+        id: '1-1',
+        name: 'Grupo 1',
+        members: ['João Silva', 'Maria Santos'],
+        files: [
+          { name: 'Proposta.pdf', url: 'https://exemplo.com/proposta.pdf' }
+        ]
+      },
+      {
+        id: '1-2',
+        name: 'Grupo 2',
+        members: ['Pedro Costa', 'Ana Lima'],
+        files: []
+      }
+    ]
+  }
+];
+
+// ─── AVISOS ───
+export const notices: Notice[] = [
+  {
+    id: '1',
+    title: 'Prova de IA adiada',
+    content: 'A prova de Inteligência Artificial foi adiada para 20/04',
+    date: '2026-03-15',
+    type: 'warning'
   }
 ];

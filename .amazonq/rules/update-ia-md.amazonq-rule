@@ -1,0 +1,29 @@
+---
+description: Sempre atualizar ia.md após alterações no código
+---
+
+Sempre que você fizer alterações em arquivos do projeto (código, componentes, dados, etc.), você DEVE atualizar o arquivo `ia.md` na raiz do projeto com:
+
+1. Resumo das alterações feitas
+2. Data e hora da modificação
+3. Arquivos afetados
+4. Contexto relevante para futuras interações
+
+Formato do registro:
+```
+## [YYYY-MM-DD HH:MM] - Título da Alteração
+
+**Arquivos modificados:**
+- caminho/arquivo1
+- caminho/arquivo2
+
+**Descrição:**
+Breve descrição do que foi alterado e por quê.
+
+**Contexto:**
+Informações relevantes para o futuro.
+
+---
+```
+
+Sempre ADICIONE (append) ao arquivo, nunca sobrescreva o conteúdo existente.

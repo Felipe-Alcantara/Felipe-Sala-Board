@@ -26,6 +26,16 @@ export default function Header({ onNavigate, currentPage = 'home' }: Props) {
               Painel
             </button>
             <button
+              onClick={() => onNavigate('gestao')}
+              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                currentPage === 'gestao'
+                  ? 'bg-felixo-purple text-white'
+                  : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              Gestão
+            </button>
+            <button
               onClick={() => onNavigate('materials')}
               className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
                 currentPage === 'materials'
