@@ -63,7 +63,6 @@ export interface CalendarEvent {
   description?: string;
   openDate: string;
   dueDate: string;
-  status: 'submitted' | 'open' | 'closed';
   submissionStatus?: string;
   gradeStatus?: string;
   submittedEarly?: string;
@@ -155,7 +154,6 @@ export const calendarEvents: CalendarEvent[] = [
     description: 'Atividade prática com <canvas> e API 2D para criar uma paisagem de verão usando primitivas geométricas.',
     openDate: '2026-03-13T00:00:00',
     dueDate: '2026-03-13T23:59:00',
-    status: 'submitted',
     submissionStatus: 'Enviado para avaliação',
     gradeStatus: 'Não há notas',
     submittedEarly: '4h01 adiantado',

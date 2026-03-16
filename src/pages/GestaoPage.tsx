@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   works,
   notices,
@@ -15,6 +15,9 @@ import {
 import { getNextClassAlert } from '../utils/scheduleAlert';
 
 const defaultData = { works, notices, upcomingTasks, schedule, alertBanner, calendarEvents };
+const calendarUserStatusStorageKey = 'gestaoCalendarUserStatus';
+
+type CalendarUserStatus = 'will' | 'sent';
 
 export default function GestaoPage() {
   const [currentTime, setCurrentTime] = useState(() => Date.now());
@@ -167,39 +170,101 @@ function NoticeCard({ notice }: { notice: Notice }) {
 }
 
 function Calendar({ events, currentDate }: { events: CalendarEvent[]; currentDate: Date }) {
-  const referenceDate = new Date(currentDate);
-  const year = referenceDate.getFullYear();
-  const month = referenceDate.getMonth();
-  const monthStart = new Date(year, month, 1);
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const leadingEmptyDays = (monthStart.getDay() + 6) % 7;
-  const totalCells = leadingEmptyDays + daysInMonth;
-  const trailingEmptyDays = (7 - (totalCells % 7)) % 7;
-  const monthLabel = monthStart.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
-
-  const eventsByDay = new Map<string, CalendarEvent[]>();
-  events.forEach((event) => {
-    const key = toDateKey(new Date(event.dueDate ?? event.openDate));
-    const bucket = eventsByDay.get(key) ?? [];
-    bucket.push(event);
-    eventsByDay.set(key, bucket);
+  const [selectedMonth, setSelectedMonth] = useState(() => startOfMonth(currentDate));
+  const [userStatusById, setUserStatusById] = useState<Record<string, CalendarUserStatus>>(() => {
+    if (typeof window === 'undefined') return {};
+    const stored = localStorage.getItem(calendarUserStatusStorageKey);
+    if (!stored) return {};
+    try {
+      const parsed = JSON.parse(stored);
+      if (!parsed || typeof parsed !== 'object') return {};
+      return parsed as Record<string, CalendarUserStatus>;
+    } catch (error) {
+      console.error('Erro ao carregar status do calendário:', error);
+      return {};
+    }
   });
 
-  const sortedEvents = [...events].sort((a, b) => {
-    const aDate = new Date(a.dueDate ?? a.openDate).getTime();
-    const bDate = new Date(b.dueDate ?? b.openDate).getTime();
-    return aDate - bDate;
-  });
+  useEffect(() => {
+    localStorage.setItem(calendarUserStatusStorageKey, JSON.stringify(userStatusById));
+  }, [userStatusById]);
+
+  const eventsByDate = useMemo(() => {
+    const map = new Map<string, CalendarEvent[]>();
+    events.forEach((event) => {
+      const anchorDate = getEventAnchorDate(event);
+      const key = toDateKey(anchorDate);
+      const bucket = map.get(key) ?? [];
+      bucket.push(event);
+      map.set(key, bucket);
+    });
+    map.forEach((bucket) =>
+      bucket.sort((a, b) => getEventAnchorDate(a).getTime() - getEventAnchorDate(b).getTime())
+    );
+    return map;
+  }, [events]);
+
+  const gridDays = useMemo(() => getMonthGridDays(selectedMonth), [selectedMonth]);
+
+  const eventsInMonth = useMemo(() => {
+    return events
+      .filter((event) => isSameMonth(getEventAnchorDate(event), selectedMonth))
+      .sort((a, b) => getEventAnchorDate(a).getTime() - getEventAnchorDate(b).getTime());
+  }, [events, selectedMonth]);
+
+  const handleStatusChange = (eventId: string, status: CalendarUserStatus) => {
+    setUserStatusById((prev) => {
+      const next = { ...prev };
+      if (prev[eventId] === status) {
+        delete next[eventId];
+        return next;
+      }
+      next[eventId] = status;
+      return next;
+    });
+  };
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)]">
       <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div>
-            <h3 className="text-lg font-semibold text-white capitalize">{monthLabel}</h3>
-            <p className="text-xs text-zinc-400">Atividades registradas</p>
+            <h3 className="text-lg font-semibold text-white capitalize">{formatMonthLabel(selectedMonth)}</h3>
+            <p className="text-xs text-zinc-400">Atividades registradas no mês</p>
           </div>
-          <span className="text-xs text-zinc-400">{events.length} atividade(s)</span>
+          <div className="flex items-center gap-2 text-xs">
+            <button
+              type="button"
+              onClick={() => setSelectedMonth(addMonths(selectedMonth, -1))}
+              className="rounded-lg border border-white/10 px-2 py-1 text-zinc-300 transition hover:border-white/30 hover:text-white"
+              aria-label="Mês anterior"
+            >
+              ◀
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedMonth(startOfMonth(currentDate))}
+              className="rounded-lg border border-white/10 px-3 py-1 text-zinc-300 transition hover:border-white/30 hover:text-white"
+            >
+              Hoje
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedMonth(addMonths(selectedMonth, 1))}
+              className="rounded-lg border border-white/10 px-2 py-1 text-zinc-300 transition hover:border-white/30 hover:text-white"
+              aria-label="Próximo mês"
+            >
+              ▶
+            </button>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between text-xs text-zinc-400 mb-3">
+          <span>{eventsInMonth.length} atividade(s)</span>
+          <span className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-felixo-purple/70" />
+            Dias com atividade
+          </span>
         </div>
 
         <div className="grid grid-cols-7 text-xs text-zinc-400 mb-2">
@@ -210,66 +275,61 @@ function Calendar({ events, currentDate }: { events: CalendarEvent[]; currentDat
           ))}
         </div>
 
-        <div className="grid grid-cols-7 gap-2 text-sm">
-          {Array.from({ length: leadingEmptyDays }).map((_, index) => (
-            <div key={`empty-start-${index}`} className="min-h-[72px] rounded-lg border border-transparent" />
-          ))}
-
-          {Array.from({ length: daysInMonth }).map((_, index) => {
-            const day = index + 1;
-            const cellDate = new Date(year, month, day);
-            const key = toDateKey(cellDate);
-            const dayEvents = eventsByDay.get(key) ?? [];
-            const isToday = isSameDay(cellDate, currentDate);
+        <div className="grid grid-cols-7 gap-3">
+          {gridDays.map((day) => {
+            const key = toDateKey(day);
+            const dayEvents = eventsByDate.get(key) ?? [];
+            const isToday = isSameDay(day, currentDate);
+            const isCurrentMonth = isSameMonth(day, selectedMonth);
+            const hasEvents = dayEvents.length > 0;
+            const tooltip = hasEvents
+              ? `${formatShortDate(day)} • ${dayEvents.map((event) => event.shortTitle).join(' • ')}`
+              : formatShortDate(day);
 
             return (
               <div
                 key={key}
-                className={`min-h-[72px] rounded-lg border p-2 ${
-                  isToday ? 'border-white/30 bg-white/10' : 'border-white/10 bg-white/5'
-                } ${dayEvents.length > 0 ? 'ring-1 ring-felixo-purple/40' : ''}`}
+                title={tooltip}
+                className={`aspect-square rounded-xl border p-2 transition ${
+                  isCurrentMonth ? 'border-white/10 bg-white/5' : 'border-transparent bg-transparent text-zinc-600/60'
+                } ${isToday ? 'ring-2 ring-felixo-purple/50' : ''} ${
+                  hasEvents ? 'hover:border-felixo-purple/60' : 'hover:border-white/20'
+                }`}
               >
-                <div className="flex items-center justify-between">
-                  <span className={`text-xs font-semibold ${isToday ? 'text-white' : 'text-zinc-300'}`}>
-                    {day}
-                  </span>
-                  {dayEvents.length > 0 && (
-                    <span className="text-[10px] text-felixo-purple font-semibold">{dayEvents.length}</span>
-                  )}
+                <div className="flex items-center justify-between text-[10px]">
+                  <span className={isCurrentMonth ? 'text-zinc-300' : 'text-zinc-600'}>{day.getDate()}</span>
+                  {hasEvents && <span className="text-felixo-purple font-semibold">{dayEvents.length}</span>}
                 </div>
-                {dayEvents.length > 0 && (
-                  <div className="mt-2 space-y-1">
-                    {dayEvents.slice(0, 2).map((event) => (
-                      <span
-                        key={event.id}
-                        className="block truncate rounded bg-felixo-purple/15 px-1.5 py-0.5 text-[10px] text-felixo-purple"
-                      >
-                        {event.shortTitle}
-                      </span>
+                {hasEvents && (
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {dayEvents.slice(0, 3).map((event) => (
+                      <span key={event.id} className="h-1.5 w-1.5 rounded-full bg-felixo-purple/80" />
                     ))}
-                    {dayEvents.length > 2 && (
-                      <span className="text-[10px] text-zinc-400">+{dayEvents.length - 2} mais</span>
+                    {dayEvents.length > 3 && (
+                      <span className="text-[10px] text-zinc-400">+{dayEvents.length - 3}</span>
                     )}
                   </div>
                 )}
               </div>
             );
           })}
-
-          {Array.from({ length: trailingEmptyDays }).map((_, index) => (
-            <div key={`empty-end-${index}`} className="min-h-[72px] rounded-lg border border-transparent" />
-          ))}
         </div>
       </div>
 
       <div className="space-y-4">
-        {sortedEvents.length === 0 ? (
+        {eventsInMonth.length === 0 ? (
           <div className="rounded-xl border border-white/10 bg-white/5 p-5 text-sm text-zinc-400">
-            Nenhuma atividade registrada.
+            Nenhuma atividade registrada neste mês.
           </div>
         ) : (
-          sortedEvents.map((event) => (
-            <CalendarEventCard key={event.id} event={event} currentDate={currentDate} />
+          eventsInMonth.map((event) => (
+            <CalendarEventCard
+              key={event.id}
+              event={event}
+              currentDate={currentDate}
+              userStatus={userStatusById[event.id]}
+              onStatusChange={handleStatusChange}
+            />
           ))
         )}
       </div>
@@ -277,19 +337,27 @@ function Calendar({ events, currentDate }: { events: CalendarEvent[]; currentDat
   );
 }
 
-function CalendarEventCard({ event, currentDate }: { event: CalendarEvent; currentDate: Date }) {
+function CalendarEventCard({
+  event,
+  currentDate,
+  userStatus,
+  onStatusChange
+}: {
+  event: CalendarEvent;
+  currentDate: Date;
+  userStatus?: CalendarUserStatus;
+  onStatusChange: (eventId: string, status: CalendarUserStatus) => void;
+}) {
   const openLabel = formatDateTime(event.openDate);
   const dueLabel = formatDateTime(event.dueDate);
   const lastModifiedLabel = event.lastModified ? formatDateTime(event.lastModified) : null;
   const isPast = new Date(event.dueDate).getTime() < currentDate.getTime();
-  const statusLabel = event.status === 'submitted' ? 'Entregue' : event.status === 'open' ? 'Aberta' : 'Encerrada';
-  const showPastBadge = isPast && statusLabel !== 'Encerrada';
-  const statusClasses =
-    event.status === 'submitted'
-      ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-200'
-      : event.status === 'open'
-        ? 'border-yellow-500/30 bg-yellow-500/15 text-yellow-200'
-        : 'border-white/10 bg-white/10 text-zinc-200';
+  const portalEntries = [
+    event.submissionStatus ? `Status de envio: ${event.submissionStatus}` : null,
+    event.gradeStatus ? `Status da avaliação: ${event.gradeStatus}` : null,
+    event.submittedEarly ? `Tempo restante: ${event.submittedEarly}` : null,
+    lastModifiedLabel ? `Última modificação: ${lastModifiedLabel}` : null
+  ].filter(Boolean) as string[];
 
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-3">
@@ -306,38 +374,51 @@ function CalendarEventCard({ event, currentDate }: { event: CalendarEvent; curre
 
       {event.description && <p className="text-sm text-zinc-300">{event.description}</p>}
 
-      <div className="text-xs text-zinc-400">
-        Aberto: {openLabel} • Vencimento: {dueLabel}
-      </div>
-
-      <div className="flex flex-wrap gap-2 text-xs">
-        <span className={`rounded-full border px-2 py-1 ${statusClasses}`}>{statusLabel}</span>
-        {showPastBadge && (
-          <span className="rounded-full border border-white/10 bg-white/10 px-2 py-1 text-zinc-200">
-            Encerrada
-          </span>
-        )}
-        {event.submissionStatus && (
-          <span className="rounded-full border border-white/10 bg-white/10 px-2 py-1 text-zinc-200">
-            {event.submissionStatus}
-          </span>
-        )}
-        {event.gradeStatus && (
-          <span className="rounded-full border border-white/10 bg-white/10 px-2 py-1 text-zinc-200">
-            {event.gradeStatus}
+      <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-400">
+        <span>Aberto: {openLabel}</span>
+        <span>•</span>
+        <span>Vencimento: {dueLabel}</span>
+        {isPast && (
+          <span className="rounded-full border border-white/10 bg-white/10 px-2 py-0.5 text-[10px] text-zinc-300">
+            Prazo encerrado
           </span>
         )}
       </div>
 
-      {event.submittedEarly && <p className="text-xs text-zinc-400">Envio: {event.submittedEarly}</p>}
-      {lastModifiedLabel && <p className="text-xs text-zinc-400">Última modificação: {lastModifiedLabel}</p>}
-      {event.attachments && event.attachments.length > 0 && (
-        <p className="text-xs text-zinc-400">
-          Arquivos: {event.attachments.map((file) => file.name).join(', ')}
-        </p>
-      )}
+      <div className="flex flex-wrap items-center gap-2 text-xs">
+        <span className="text-zinc-400">Minha intenção:</span>
+        <button
+          type="button"
+          onClick={() => onStatusChange(event.id, 'will')}
+          aria-pressed={userStatus === 'will'}
+          className={`rounded-full border px-2 py-1 transition ${
+            userStatus === 'will'
+              ? 'border-felixo-purple/60 bg-felixo-purple/15 text-felixo-purple'
+              : 'border-white/10 text-zinc-300 hover:border-white/30'
+          }`}
+        >
+          Vou enviar
+        </button>
+        <button
+          type="button"
+          onClick={() => onStatusChange(event.id, 'sent')}
+          aria-pressed={userStatus === 'sent'}
+          className={`rounded-full border px-2 py-1 transition ${
+            userStatus === 'sent'
+              ? 'border-emerald-400/60 bg-emerald-400/15 text-emerald-200'
+              : 'border-white/10 text-zinc-300 hover:border-white/30'
+          }`}
+        >
+          Enviei
+        </button>
+      </div>
 
-      {(event.objective || event.requirements || event.tips || event.notes) && (
+      {(event.objective ||
+        event.requirements ||
+        event.tips ||
+        event.notes ||
+        portalEntries.length > 0 ||
+        (event.attachments && event.attachments.length > 0)) && (
         <details className="rounded-lg border border-white/10 bg-white/5 p-4">
           <summary className="cursor-pointer text-sm text-felixo-purple font-semibold">Detalhes da atividade</summary>
           <div className="mt-3 space-y-3 text-sm text-zinc-300">
@@ -371,6 +452,26 @@ function CalendarEventCard({ event, currentDate }: { event: CalendarEvent; curre
                   ))}
                 </ul>
               </div>
+            )}
+
+            {portalEntries.length > 0 && (
+              <div>
+                <p className="text-zinc-400">Registro do portal:</p>
+                <ul className="mt-2 space-y-1">
+                  {portalEntries.map((entry, index) => (
+                    <li key={`${event.id}-portal-${index}`} className="text-zinc-300">
+                      • {entry}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {event.attachments && event.attachments.length > 0 && (
+              <p>
+                <span className="text-zinc-400">Arquivos anexados:</span>{' '}
+                {event.attachments.map((file) => file.name).join(', ')}
+              </p>
             )}
 
             {event.notes && <p className="text-zinc-400">{event.notes}</p>}
@@ -449,12 +550,76 @@ function toDateKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
+function getEventAnchorDate(event: CalendarEvent) {
+  return new Date(event.dueDate ?? event.openDate);
+}
+
 function isSameDay(left: Date, right: Date) {
   return (
     left.getFullYear() === right.getFullYear() &&
     left.getMonth() === right.getMonth() &&
     left.getDate() === right.getDate()
   );
+}
+
+function isSameMonth(left: Date, right: Date) {
+  return left.getFullYear() === right.getFullYear() && left.getMonth() === right.getMonth();
+}
+
+function startOfMonth(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function endOfMonth(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
+
+function startOfWeek(date: Date, weekStartsOn = 1) {
+  const start = new Date(date);
+  const day = start.getDay();
+  const diff = (day - weekStartsOn + 7) % 7;
+  start.setDate(start.getDate() - diff);
+  start.setHours(0, 0, 0, 0);
+  return start;
+}
+
+function endOfWeek(date: Date, weekStartsOn = 1) {
+  const start = startOfWeek(date, weekStartsOn);
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+  return end;
+}
+
+function addDays(date: Date, amount: number) {
+  const next = new Date(date);
+  next.setDate(next.getDate() + amount);
+  return next;
+}
+
+function addMonths(date: Date, amount: number) {
+  return new Date(date.getFullYear(), date.getMonth() + amount, 1);
+}
+
+function getMonthGridDays(monthDate: Date) {
+  const monthStart = startOfMonth(monthDate);
+  const monthEnd = endOfMonth(monthDate);
+  const gridStart = startOfWeek(monthStart, 1);
+  const gridEnd = endOfWeek(monthEnd, 1);
+  const days: Date[] = [];
+
+  for (let day = gridStart; day <= gridEnd; day = addDays(day, 1)) {
+    days.push(new Date(day));
+  }
+
+  return days;
+}
+
+function formatMonthLabel(date: Date) {
+  return date.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+}
+
+function formatShortDate(date: Date) {
+  return date.toLocaleDateString('pt-BR');
 }
 
 function formatDateTime(value: string) {
