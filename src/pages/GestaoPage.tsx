@@ -225,7 +225,7 @@ function Calendar({ events, currentDate }: { events: CalendarEvent[]; currentDat
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)]">
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] lg:items-start">
       <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div>
@@ -293,7 +293,9 @@ function Calendar({ events, currentDate }: { events: CalendarEvent[]; currentDat
                 className={`aspect-square rounded-xl border p-2 transition ${
                   isCurrentMonth ? 'border-white/10 bg-white/5' : 'border-transparent bg-transparent text-zinc-600/60'
                 } ${isToday ? 'ring-2 ring-felixo-purple/50' : ''} ${
-                  hasEvents ? 'hover:border-felixo-purple/60' : 'hover:border-white/20'
+                  hasEvents
+                    ? `border-felixo-purple/30 bg-felixo-purple/10 hover:border-felixo-purple/60`
+                    : 'hover:border-white/20'
                 }`}
               >
                 <div className="flex items-center justify-between text-[10px]">
