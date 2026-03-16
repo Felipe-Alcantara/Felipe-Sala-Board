@@ -52,6 +52,29 @@ export interface Notice {
   type: 'info' | 'warning' | 'urgent';
 }
 
+export interface CalendarEvent {
+  id: string;
+  subject: string;
+  courseCode?: string;
+  courseTrack?: string;
+  classLabel?: string;
+  title: string;
+  shortTitle: string;
+  description?: string;
+  openDate: string;
+  dueDate: string;
+  status: 'submitted' | 'open' | 'closed';
+  submissionStatus?: string;
+  gradeStatus?: string;
+  submittedEarly?: string;
+  lastModified?: string;
+  objective?: string;
+  requirements?: string[];
+  tips?: string[];
+  notes?: string;
+  attachments?: { name: string; url?: string }[];
+}
+
 // ─── MATERIAIS / CONTEÚDOS ───
 // Estrutura de árvore para organizar materiais por matéria e aula.
 //
@@ -116,6 +139,45 @@ export const upcomingTasks: Task[] = [
     description: 'Aula 1 - ficha cadastral do TCC',
     startDate: '2026-02-19',
     url: 'https://nead.ugb.edu.br/mod/url/view.php?id=11201'
+  }
+];
+
+// ─── CALENDÁRIO ───
+export const calendarEvents: CalendarEvent[] = [
+  {
+    id: 'cg-atividade-2026-03-13',
+    subject: 'Computação Gráfica',
+    courseCode: '26.1',
+    courseTrack: 'VR/SIS.N/6P/A',
+    classLabel: 'Aula 03 - Desenhando primitivas',
+    title: 'Composição de Paisagem com Primitivas Gráficas',
+    shortTitle: 'Paisagem com Primitivas',
+    description: 'Atividade prática com <canvas> e API 2D para criar uma paisagem de verão usando primitivas geométricas.',
+    openDate: '2026-03-13T00:00:00',
+    dueDate: '2026-03-13T23:59:00',
+    status: 'submitted',
+    submissionStatus: 'Enviado para avaliação',
+    gradeStatus: 'Não há notas',
+    submittedEarly: '4h01 adiantado',
+    lastModified: '2026-03-13T19:57:00',
+    objective: 'Utilizar o elemento <canvas> e a API de desenho 2D do JavaScript para criar uma composição visual utilizando apenas formas geométricas básicas (primitivas).',
+    requirements: [
+      'Fundo (céu e grama): uso de fillRect para criar grandes áreas coloridas.',
+      'Sol radiante: arc para circunferência completa, preenchimento amarelo e contorno laranja.',
+      'Casa geométrica: corpo com fillRect ou strokeRect; telhado triangular com beginPath, moveTo e lineTo.',
+      'Árvore estilizada: tronco retangular; copa com círculo ou arco de 180 graus.'
+    ],
+    tips: [
+      'Coordenadas: (0,0) é o canto superior esquerdo; para descer, aumente o valor de y.',
+      'Ordem de desenho: o que for desenhado por último fica por cima (camadas).',
+      'Radianos: use 2 * Math.PI para círculos; arco: graus * Math.PI / 180.',
+      'Limpeza de path: use beginPath() antes de cada forma complexa.'
+    ],
+    notes: 'OBS.: No anexo vocês podem ver a imagem criada.',
+    attachments: [
+      { name: 'tarefa.png' },
+      { name: 'Composição.HTML' }
+    ]
   }
 ];
 
