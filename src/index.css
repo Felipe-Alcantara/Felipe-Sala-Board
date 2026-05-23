@@ -4,57 +4,208 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   FELIXO DESIGN SYSTEM — base, glow, intensidade
+   Ref: felixo-standards/PADRÕES DE DESIGN/DESIGN_SYSTEM_PARA_FRONTEND.md
+   ============================================================ */
+
+:root {
+  --felixo-glow-intensity: 1;
+}
+
 @layer base {
   body {
     @apply font-sans antialiased bg-gradient-to-b from-black via-zinc-950 to-black text-zinc-50;
+    selection-color: rgba(168, 85, 247, 0.4);
   }
-  
+
+  ::selection {
+    background-color: rgba(168, 85, 247, 0.4);
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: rgba(74, 74, 74, 0.8);
     border-radius: 4px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(106, 106, 106, 0.9);
   }
 }
 
 @layer utilities {
+  /* ---------- Intensidade global do glow ---------- */
+  .felixo-glow-intensity-25  { --felixo-glow-intensity: 0.25; }
+  .felixo-glow-intensity-50  { --felixo-glow-intensity: 0.5; }
+  .felixo-glow-intensity-75  { --felixo-glow-intensity: 0.75; }
+  .felixo-glow-intensity-100 { --felixo-glow-intensity: 1; }
+  .felixo-glow-intensity-150 { --felixo-glow-intensity: 1.5; }
+
+  /* ---------- Glow de cards (roxo) ---------- */
   .felixo-card-glow {
-    box-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
+    animation: card-glow-breathe 3s ease-in-out infinite;
     transition: box-shadow 0.3s ease;
   }
-  
-  .felixo-card-glow:hover {
-    box-shadow: 0 0 40px rgba(192, 132, 252, 0.6);
+
+  .felixo-card-glow-subtle {
+    animation: card-glow-breathe-subtle 3s ease-in-out infinite;
+  }
+
+  .felixo-card-glow-intense-hover:hover {
+    animation: card-glow-breathe-intense-hover 2.5s ease-in-out infinite;
+  }
+
+  /* ---------- Glow de cards (branco) ---------- */
+  .felixo-card-glow-white {
+    animation: card-glow-breathe-white 3s ease-in-out infinite;
+  }
+
+  .felixo-card-glow-intense {
+    animation: card-glow-breathe-intense 5s ease-in-out infinite;
+  }
+
+  /* ---------- Glow de texto ---------- */
+  .text-felixo-purple {
+    color: #C084FC;
+  }
+
+  .text-felixo-purple-glow {
+    color: #A855F7;
+    text-shadow:
+      0 0 8px rgba(168, 85, 247, 0.55),
+      0 0 44px rgba(168, 85, 247, 0.32);
+    animation:
+      title-glow-purple 3s ease-in-out infinite,
+      text-glow-breathe 3.8s ease-in-out infinite;
+  }
+
+  .text-glow-white {
+    text-shadow:
+      0 0 5px rgba(255, 255, 255, 0.35),
+      0 0 20px rgba(255, 255, 255, 0.15);
+  }
+
+  .glowing-spinning-text {
+    color: #FFFFFF;
+    animation: glow-effect 3s ease-in-out infinite;
+  }
+
+  /* ---------- Glow de input em foco ---------- */
+  .input-glowing-border:focus {
+    box-shadow:
+      0 0 0 2px rgba(168, 85, 247, 0.4),
+      0 0 0 4px rgba(168, 85, 247, 0.2);
+    border-color: rgba(168, 85, 247, 0.6);
+    outline: none;
   }
 }
 
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+
+/* Glow de cards — roxo padrão */
+@keyframes card-glow-breathe {
+  0%, 100% {
+    box-shadow: 0 0 calc(15px * var(--felixo-glow-intensity)) rgba(168, 85, 247, calc(0.15 * var(--felixo-glow-intensity)));
+  }
+  50% {
+    box-shadow: 0 0 calc(40px * var(--felixo-glow-intensity)) rgba(168, 85, 247, calc(0.45 * var(--felixo-glow-intensity)));
+  }
+}
+
+/* Glow de cards — roxo sutil (cards adjacentes) */
+@keyframes card-glow-breathe-subtle {
+  0%, 100% {
+    box-shadow: 0 0 calc(8px * var(--felixo-glow-intensity)) rgba(168, 85, 247, calc(0.1 * var(--felixo-glow-intensity)));
+  }
+  50% {
+    box-shadow: 0 0 calc(15px * var(--felixo-glow-intensity)) rgba(168, 85, 247, calc(0.2 * var(--felixo-glow-intensity)));
+  }
+}
+
+/* Glow de cards — roxo intenso (hover) */
+@keyframes card-glow-breathe-intense-hover {
+  0%, 100% {
+    box-shadow: 0 0 calc(20px * var(--felixo-glow-intensity)) rgba(168, 85, 247, calc(0.25 * var(--felixo-glow-intensity)));
+  }
+  50% {
+    box-shadow: 0 0 calc(55px * var(--felixo-glow-intensity)) rgba(168, 85, 247, calc(0.65 * var(--felixo-glow-intensity)));
+  }
+}
+
+/* Glow de cards — branco padrão */
+@keyframes card-glow-breathe-white {
+  0%, 100% {
+    box-shadow: 0 0 calc(15px * var(--felixo-glow-intensity)) rgba(255, 255, 255, calc(0.15 * var(--felixo-glow-intensity)));
+  }
+  50% {
+    box-shadow: 0 0 calc(40px * var(--felixo-glow-intensity)) rgba(255, 255, 255, calc(0.45 * var(--felixo-glow-intensity)));
+  }
+}
+
+/* Glow de cards — branco intenso */
+@keyframes card-glow-breathe-intense {
+  0%, 100% {
+    box-shadow: 0 0 calc(10px * var(--felixo-glow-intensity)) rgba(255, 255, 255, calc(0.25 * var(--felixo-glow-intensity)));
+  }
+  50% {
+    box-shadow: 0 0 calc(30px * var(--felixo-glow-intensity)) rgba(255, 255, 255, calc(0.6 * var(--felixo-glow-intensity)));
+  }
+}
+
+/* Glow de texto — roxo (drop-shadow) */
+@keyframes title-glow-purple {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.7));
+  }
+}
+
+/* Glow de texto — respiração (text-shadow) */
+@keyframes text-glow-breathe {
+  0%, 100% {
+    text-shadow:
+      0 0 8px rgba(168, 85, 247, 0.4),
+      0 0 32px rgba(168, 85, 247, 0.2);
+  }
+  50% {
+    text-shadow:
+      0 0 14px rgba(168, 85, 247, 0.7),
+      0 0 48px rgba(168, 85, 247, 0.35);
+  }
+}
+
+/* Glow de texto — branco respirante */
+@keyframes glow-effect {
+  0%, 100% {
+    text-shadow:
+      0 0 8px rgba(255, 255, 255, 0.7),
+      0 0 20px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    text-shadow:
+      0 0 15px rgba(255, 255, 255, 1),
+      0 0 30px rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* Animações de transição de página (legado) */
 @keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-60px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 .animate-slide-right {
