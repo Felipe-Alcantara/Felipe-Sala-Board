@@ -1,7 +1,15 @@
+import Button from './ui/Button';
+
 interface Props {
   onNavigate?: (page: string) => void;
   currentPage?: string;
 }
+
+const NAV_ITEMS = [
+  { id: 'home', label: 'Painel' },
+  { id: 'gestao', label: 'Gestão' },
+  { id: 'materials', label: 'Materiais' }
+] as const;
 
 export default function Header({ onNavigate, currentPage = 'home' }: Props) {
   return (
@@ -14,37 +22,18 @@ export default function Header({ onNavigate, currentPage = 'home' }: Props) {
           Portal não-oficial da turma. Centralize horários, avisos e entregas em um só lugar.
         </p>
         {onNavigate && (
-          <nav className="flex gap-2">
-            <button
-              onClick={() => onNavigate('home')}
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
-                currentPage === 'home'
-                  ? 'bg-felixo-purple text-white'
-                  : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              Painel
-            </button>
-            <button
-              onClick={() => onNavigate('gestao')}
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
-                currentPage === 'gestao'
-                  ? 'bg-felixo-purple text-white'
-                  : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              Gestão
-            </button>
-            <button
-              onClick={() => onNavigate('materials')}
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
-                currentPage === 'materials'
-                  ? 'bg-felixo-purple text-white'
-                  : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              Materiais
-            </button>
+          <nav className="flex gap-3">
+            {NAV_ITEMS.map((item) => (
+              <Button
+                key={item.id}
+                size="sm"
+                variant={currentPage === item.id ? 'default' : 'ghost'}
+                active={currentPage === item.id}
+                onClick={() => onNavigate(item.id)}
+              >
+                {item.label}
+              </Button>
+            ))}
           </nav>
         )}
       </div>
